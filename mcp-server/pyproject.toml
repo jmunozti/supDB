@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "supdb"
+version = "1.0.0"
+description = "supDB — MCP server for Claude Code that analyzes PostgreSQL and MongoDB performance"
+authors = ["Your Name <your@email.com>"]
+license = "MIT"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+mcp = {version = "^1.9.2", extras = ["cli"]}
+psycopg2-binary = "^2.9.10"
+pymongo = "^4.12.1"
+pydantic = "^2.10.4"
+pydantic-settings = "^2.7.1"
+python-dotenv = "^1.0.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+ruff = "^0.8.6"
+
+[tool.poetry.scripts]
+supdb = "server:mcp.run"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "S", "B"]
+ignore = ["S101", "S608"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
