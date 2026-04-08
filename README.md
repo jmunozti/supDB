@@ -115,6 +115,29 @@ Open a **new** Claude Code session and ask:
 "Explain this query: SELECT * FROM orders WHERE status = 'pending'"
 ```
 
+## How RAG Works in supDB
+
+supDB uses **real-time context injection** instead of a traditional vector DB RAG pipeline. Here's why:
+
+```
+Traditional RAG:  documents → embeddings → vector DB → similarity search → LLM
+supDB RAG:        live DB query → structured text snapshot → MCP resource → Claude
+```
+
+When Claude Code connects to supDB, the `db://context` resource builds a **live snapshot** of both databases by querying:
+
+- PostgreSQL: `information_schema` for schemas, `pg_stat_user_tables` for scan stats
+- MongoDB: `collStats` for sizes, `system.profile` for slow queries
+
+This snapshot (~2KB of text) gives Claude the full picture — table structures, column types, missing indexes, collection scans — **before it calls any tool**. No embeddings, no vector search, no stale data.
+
+Why not a vector DB?
+- Database metadata **changes constantly** (new queries, updated stats)
+- The full context is **small enough** to fit in a single response
+- You need to see **all the data**, not search for similar chunks
+
+The result: Claude makes informed recommendations based on real-time database state, not generic knowledge.
+
 ## Example Output
 
 ```
