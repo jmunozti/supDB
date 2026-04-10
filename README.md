@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/supdb.png" alt="supDB" width="320">
+</p>
+
 # supDB
 
 > *"Sup, DB?" — an MCP server that checks what's up with your databases*
